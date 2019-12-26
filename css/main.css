@@ -1,0 +1,21 @@
+.login-form {
+
+}
+.login-form._hidden {
+    display: none;
+}
+.main-form {
+    width: 100%;
+    height: auto;
+}
+.main-form._hidden {
+    display: none;
+}
+.main-form iframe {
+    width: 100%;
+    height: 100%;
+    border: none;
+}
+.main-form__iframe {
+    border: none;
+}
