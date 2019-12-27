@@ -19,3 +19,18 @@
 .main-form__iframe {
     border: none;
 }
+
+.toolbar__button {
+    border-radius: 4px;
+    border: 1px solid cornflowerblue;
+    outline: none;
+    background-color: #0b3aed;
+    color: aliceblue;
+    height: 2.2em;
+}
+
+.button__change-user {
+    float: right;
+    border: 1px solid #edba7f;
+    background-color: #ed760c;
+}
