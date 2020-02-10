@@ -27,7 +27,7 @@ $(document).ready(() => {
             data: form.serialize(), // serializes the form's elements.
             success: function(data)
             {
-                alert(data); // show response from the php script.
+                // alert(data); // show response from the php script.
                 $('.main-form').removeClass("_hidden")
                 $('.login-form').addClass("_hidden")
             },
@@ -35,7 +35,7 @@ $(document).ready(() => {
         });
     })
 
-    $('.toolbar__button').click(function(e){
+    $('.js-author-button').click(function(e){
         var btn = $(this)
         var id = btn[0].dataset.id
 
@@ -70,6 +70,12 @@ $(document).ready(() => {
             msg = 'Uncaught Error.\n' + jqXHR.responseText;
         }
         alert(jqXHR.responseJSON && jqXHR.responseJSON.message ? jqXHR.responseJSON.message : msg);
+    }
+
+    window.changeUser = () => {
+        $('#iframe-container').empty()
+        $('.main-form').addClass("_hidden")
+        $('.login-form').removeClass("_hidden")
     }
 
 });
