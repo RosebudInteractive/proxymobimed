@@ -41,6 +41,11 @@ module.exports = (app) => {
         }
     });
 
+    app.get("/api/logout", (req, res) => {
+        res.clearCookie(COOKIE_NAME);
+        res.json({ result: "OK" });
+    });
+
     app.post("/api/login", (req, res) => {
         res.clearCookie(COOKIE_NAME);
         if (USERS[req.body.login] && USERS[req.body.login].Password === req.body.password) {
