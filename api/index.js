@@ -1,5 +1,6 @@
 'use strict';
 const fs = require('fs');
+const config = require('config');
 const request = require('request');
 const bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser');
@@ -11,7 +12,8 @@ const USERS = {
     "u3": { Id: 3, Password: 'p3' }
 };
 
-const CALYPSO_AUTH_URL = "http://localhost:3333/api/mobimed-auth";
+const DFLT_CALYPSO_URL = "http://localhost:3333";
+const CALYPSO_AUTH_URL = `${config.has('calypsoUrl') ? config.get('calypsoUrl') : DFLT_CALYPSO_URL}/api/mobimed-auth`;
 const privateKey = fs.readFileSync('./keys/private.key', 'utf8');
 const publicKey = fs.readFileSync('./keys/public.pem', 'utf8');  // get public key
 
@@ -23,6 +25,7 @@ const COOKIE_OPTIONS = {
 
 module.exports = (app) => {
 
+    let calypsoUrl = config.has('calypsoUrl') ? config.get('calypsoUrl') : DFLT_CALYPSO_URL;
     app.use(cookieParser());
     app.use("/api", bodyParser.json({ limit: '128mb' }));
     app.use("/api", bodyParser.urlencoded({ extended: true }));
@@ -80,6 +83,7 @@ module.exports = (app) => {
                             else
                                 switch (response.statusCode) {
                                     case 200:
+                                        body.calypsoUrl = calypsoUrl;
                                         res.json(body);
                                         break;
                                     default:

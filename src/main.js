@@ -45,7 +45,7 @@ $(document).ready(() => {
                 $('#iframe-container').empty()
 
                 var iframe = document.createElement('iframe');
-                iframe.src = encodeURI(`http://127.0.0.1:3333?data_id=${id}&token=${data.token}`);
+                iframe.src = encodeURI(`${data.calypsoUrl}?data_id=${id}&token=${data.token}`);
                 $('#iframe-container').append(iframe)
             },
             error: _handleError,
