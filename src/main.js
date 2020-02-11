@@ -1,13 +1,19 @@
 $(document).ready(() => {
 
+    let User = null
+
     $.ajax({ url: "/api/whoami",
         context: document.body,
-        success: function(){
+        success: function(data)
+        {
+            User = Object.assign({}, data)
+            $('.user-block__user-name').text(User.login)
             $('.main-form').removeClass("_hidden")
             $('.login-form').addClass("_hidden")
         },
         error: function (jqXHR, exception) {
             if (jqXHR.status === 401) {
+                $('.user-block__user-name').text("")
                 $('.main-form').addClass("_hidden")
                 $('.login-form').removeClass("_hidden")
             }
@@ -27,11 +33,15 @@ $(document).ready(() => {
             data: form.serialize(), // serializes the form's elements.
             success: function(data)
             {
-                // alert(data); // show response from the php script.
+                User = Object.assign({}, data)
+                $('.user-block__user-name').text(User.login)
                 $('.main-form').removeClass("_hidden")
                 $('.login-form').addClass("_hidden")
             },
-            error: _handleError,
+            error: function (jqXHR, exception) {
+                _handleError(jqXHR, exception)
+                $('.user-block__user-name').text("")
+            }
         });
     })
 
@@ -73,9 +83,18 @@ $(document).ready(() => {
     }
 
     window.changeUser = () => {
-        $('#iframe-container').empty()
-        $('.main-form').addClass("_hidden")
-        $('.login-form').removeClass("_hidden")
+        $.ajax({ url: "/api/logout",
+            context: document.body,
+            success: function()
+            {
+                User = null
+                $('.user-block__user-name').text(null)
+                $('#iframe-container').empty()
+                $('.main-form').addClass("_hidden")
+                $('.login-form').removeClass("_hidden")
+            },
+            error: _handleError
+        });
     }
 
 });

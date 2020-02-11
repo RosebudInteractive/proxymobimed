@@ -27,10 +27,26 @@
     background-color: #0b3aed;
     color: aliceblue;
     height: 2.2em;
+    cursor: pointer;
 }
 
 .button__change-user {
-    float: right;
     border: 1px solid #edba7f;
     background-color: #ed760c;
+}
+
+.toolbar__user-block {
+    float: right;
+    width: auto;
+    padding-right: 30px;
+}
+
+.user-block__user-name {
+    font-family: serif;
+    font-size: 17px;
+    color: #ed092a;
+    line-height: 30px;
+    font-weight: bold;
+    padding-right: 20px;
+    float: left;
 }
