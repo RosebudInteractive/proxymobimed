@@ -1,10 +1,26 @@
 <html>
     <head>
-        <script src="https://code.jquery.com/jquery-3.4.1.min.js"
-                integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
-                crossorigin="anonymous"></script>
-        <script src="/src/main.js"></script>
+        <script src="http://localhost:3333/socket.io/socket.io.js"></script>
+        <script src="http://localhost:3333/public/client-bundle.js"></script>
+
+<!--        <script src="https://code.jquery.com/jquery-3.4.1.min.js"-->
+<!--                integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="-->
+<!--                crossorigin="anonymous"></script>-->
+
+
+        <script>
+            var USE_BUNDLES = true;
+        </script>
+
+        <link href="http://localhost:3333/public/libs/jquery-ui/themes/smoothness/jquery-ui.css" rel="stylesheet">
+        <link type="text/css" rel="stylesheet" href="http://localhost:3333/public/client-bundle.css" media="all">
+
+
+        <script src="http://localhost:3333/public/uccello/uses/require.js"></script>
+
+        <script src="http://localhost:3333/public/calypso-bundle.js"></script>
         <link rel="stylesheet" href="/css/main.css">
+        <script src="/src/main.js"></script>
     </head>
     <body>
         <form class="login-form _hidden" id="login" action="/api/login" method="post">

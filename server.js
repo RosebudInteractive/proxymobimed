@@ -16,6 +16,7 @@ app.get('/', function (req, res) {
 
 app.use("/src", express.static(__dirname + '/src'));
 app.use("/css", express.static(__dirname + '/css'));
+// app.use("/public", express.static(__dirname + '/public'));
 
 http.createServer(app).listen(httpPort, '127.0.0.1');
 console.log('Web server started http://127.0.0.1:' + httpPort);
