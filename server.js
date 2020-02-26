@@ -14,6 +14,10 @@ app.get('/', function (req, res) {
     res.sendFile('index.html', { root: path.join(__dirname, 'views') });
 });
 
+app.get('/iframe', function (req, res) {
+    res.sendFile('iframe.html', { root: path.join(__dirname, 'views') });
+});
+
 app.use("/src", express.static(__dirname + '/src'));
 app.use("/css", express.static(__dirname + '/css'));
 // app.use("/public", express.static(__dirname + '/public'));
