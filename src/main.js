@@ -2,11 +2,20 @@ $(document).ready(() => {
 
     let User = null
 
+    const _isCalypsoApiEnabled = () => {
+        return window.CALYPSO_PROXY_TYPE && (proxyType === CALYPSO_PROXY_TYPE.BUNDLE)
+    }
+
     $.ajax({ url: "/api/whoami",
         context: document.body,
         success: function(data)
         {
             User = Object.assign({}, data)
+
+            $(document).ready( () => {
+                setTimeout(_login, 1000)
+            })
+
             $('.user-block__user-name').text(User.login)
             $('.main-form').removeClass("_hidden")
             $('.login-form').addClass("_hidden")
@@ -37,6 +46,8 @@ $(document).ready(() => {
                 $('.user-block__user-name').text(User.login)
                 $('.main-form').removeClass("_hidden")
                 $('.login-form').addClass("_hidden")
+
+                _login()
             },
             error: function (jqXHR, exception) {
                 _handleError(jqXHR, exception)
@@ -52,11 +63,17 @@ $(document).ready(() => {
         $.ajax({ url: "/api/calypso-token",
             context: document.body,
             success: function(data){
-                $('#iframe-container').empty()
 
-                var iframe = document.createElement('iframe');
-                iframe.src = encodeURI(`${data.calypsoUrl}?data_id=${id}&token=${data.token}`);
-                $('#iframe-container').append(iframe)
+                if (_isCalypsoApiEnabled()) {
+                    $CLIENT.addServerContext({dataId: id})
+                } else {
+                    $('#iframe-container').empty()
+
+                    var iframe = document.createElement('iframe');
+                    iframe.src = encodeURI(`${data.calypsoUrl}?data_id=${id}&token=${data.token}`);
+                    $('#iframe-container').append(iframe)
+                    $('#iframe-container').append(iframe)
+                }
             },
             error: _handleError,
         });
@@ -88,6 +105,11 @@ $(document).ready(() => {
             success: function()
             {
                 User = null
+
+                if (_isCalypsoApiEnabled()) {
+                    $CLIENT.logout()
+                }
+
                 $('.user-block__user-name').text(null)
                 $('#iframe-container').empty()
                 $('.main-form').addClass("_hidden")
@@ -97,4 +119,15 @@ $(document).ready(() => {
         });
     }
 
+    const _login = function () {
+        if (_isCalypsoApiEnabled()) {
+            $.ajax({ url: "/api/calypso-token",
+                context: document.body,
+                success: function(data){
+                    $CLIENT.connect(data.token)
+                },
+                error: _handleError,
+            });
+        }
+    }
 });
