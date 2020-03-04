@@ -10,12 +10,14 @@ const HTTP_PORT = 5555;
 let httpPort = config.has('httpPort') ? config.get('httpPort') : HTTP_PORT;
 require('./api')(app);
 
+app.engine('html', require('ejs').renderFile);
+
 app.get('/', function (req, res) {
-    res.sendFile('index.html', { root: path.join(__dirname, 'views') });
+    res.render('index.html', { url: config.calypsoUrl });
 });
 
 app.get('/iframe', function (req, res) {
-    res.sendFile('iframe.html', { root: path.join(__dirname, 'views') });
+    res.render('iframe.html', {});
 });
 
 app.use("/src", express.static(__dirname + '/src'));
