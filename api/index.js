@@ -30,6 +30,10 @@ module.exports = (app) => {
     app.use("/api", bodyParser.json({ limit: '128mb' }));
     app.use("/api", bodyParser.urlencoded({ extended: true }));
 
+    app.get("/api/options", (req, res) => {
+        res.json({ calypsoUrl: calypsoUrl });
+    });
+
     app.get("/api/whoami", (req, res) => {
         try {
             let cuser = req.cookies[COOKIE_NAME];
