@@ -14,6 +14,7 @@ body{
     margin: 0 16px;
     text-decoration: none;
     font-size: 16px;
+    line-height: 2.2em;
 }
 .login-form {
 
@@ -23,7 +24,8 @@ body{
 }
 .main-form {
     width: 100%;
-    height: auto;
+    height: 100%;
+    display: flex;
 }
 .main-form._hidden {
     display: none;
@@ -35,21 +37,20 @@ body{
 }
 .main-form__iframe {
     border: none;
+    flex-grow: 1;
 }
 
-.toolbar__button {
+.main-form__iframe .form,
+.main-form__iframe .form .control-wrapper {
+    border: none;
+}
+
+.main-form__iframe .control.edit {
+    border-width: thin;
     border-radius: 4px;
-    border: 1px solid cornflowerblue;
-    outline: none;
-    background-color: #0b3aed;
-    color: aliceblue;
-    height: 2.2em;
-    cursor: pointer;
 }
-
-.button__change-user {
-    border: 1px solid #edba7f;
-    background-color: #ed760c;
+.main-form__iframe .control.label {
+    line-height: 23px;
 }
 
 .toolbar__user-block {
@@ -62,8 +63,43 @@ body{
     font-family: serif;
     font-size: 17px;
     color: #ed092a;
-    line-height: 30px;
+    line-height: 2.2em;
     font-weight: bold;
     padding-right: 20px;
     float: left;
+}
+
+.buttons-block {
+    height: 100%;
+    width: 15%;
+    display: flex;
+    flex-direction: column;
+    float: left;
+    max-width: 200px;
+}
+
+.mobi-button {
+    border-radius: 4px;
+    outline: none;
+    cursor: pointer;
+    margin: 5px 0;
+    min-height: 2.2em;
+}
+
+.mobi-button.blue {
+    border: 1px solid cornflowerblue;
+    background-color: #0b3aed;
+    color: aliceblue;
+}
+
+.mobi-button.orange {
+    border: 1px solid #edba7f;
+    background-color: #ed760c;
+    color: aliceblue;
+}
+
+.calypso-wrapper {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
 }

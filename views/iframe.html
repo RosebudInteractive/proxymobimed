@@ -1,12 +1,12 @@
 <html>
 <head>
+    <title>iFrame Calypso</title>
     <script src="https://code.jquery.com/jquery-3.4.1.min.js"
             integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
             crossorigin="anonymous"></script>
     <link rel="stylesheet" href="/css/main.css">
-    <script src="/src/main.js"></script>
+    <script src="/public/main.js"></script>
     <link rel="stylesheet" href="/css/main.css">
-    <script src="/src/main.js"></script>
 </head>
 <body>
     <div class="main-label">Calypso работает в iFrame</div>
@@ -22,17 +22,18 @@
         </div>
     </form>
     <div class="main-form _hidden">
-        <div class="toolbar">
-            <button class="toolbar__button js-author-button" data-id="1">Кукин</button>
-            <button class="toolbar__button js-author-button" data-id="2">Листов</button>
-            <button class="toolbar__button js-author-button" data-id="3">Лекманов</button>
-            <a href="/" class="type-switch-link">перейти в BUNDLE режим</a>
-            <div class="toolbar__user-block">
-                <div class="user-block__user-name"></div>
-                <button class="toolbar__button button__change-user" onclick=changeUser()>Выход</button>
+        <div class="buttons-block"></div>
+        <div class="calypso-wrapper">
+            <div class="toolbar">
+                <div class="toolbar__buttons-block"></div>
+                <a href="/" class="type-switch-link">перейти в BUNDLE режим</a>
+                <div class="toolbar__user-block">
+                    <div class="user-block__user-name"></div>
+                    <button class="mobi-button orange" onclick=changeUser()>Выход</button>
+                </div>
             </div>
+            <div class="main-form__iframe" id="iframe-container"></div>
         </div>
-        <div class="main-form__iframe" id="iframe-container"></div>
     </div>
 </body>
 </html>

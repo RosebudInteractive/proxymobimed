@@ -1,133 +1,51 @@
+import {getOptions, login, logout, whoAmI} from "./app-data";
+import {calypsoConnect, calypsoLogout} from "./calypso-data";
+
+getOptions()
+
 $(document).ready(() => {
-
-    let User = null
-
-    const _isCalypsoApiEnabled = () => {
-        return window.CALYPSO_PROXY_TYPE && (proxyType === CALYPSO_PROXY_TYPE.BUNDLE)
-    }
-
-    $.ajax({ url: "/api/whoami",
-        context: document.body,
-        success: function(data)
-        {
-            User = Object.assign({}, data)
-
-            $(document).ready( () => {
-                setTimeout(_login, 1000)
-            })
-
-            $('.user-block__user-name').text(User.login)
+    whoAmI()
+        .then((name) => {
+            $('.user-block__user-name').text(name)
             $('.main-form').removeClass("_hidden")
             $('.login-form').addClass("_hidden")
-        },
-        error: function (jqXHR, exception) {
-            if (jqXHR.status === 401) {
+
+            calypsoConnect()
+        })
+        .catch((e) => {
+            if (e.message === "UNAUTHORIZED") {
                 $('.user-block__user-name').text("")
                 $('.main-form').addClass("_hidden")
                 $('.login-form').removeClass("_hidden")
             }
-        },
-    });
+        })
 
 
     $('#login').submit(function(e) {
         e.preventDefault(); // avoid to execute the actual submit of the form.
-
-        var form = $(this);
-        var url = form.attr('action');
-
-        $.ajax({
-            type: "POST",
-            url: url,
-            data: form.serialize(), // serializes the form's elements.
-            success: function(data)
-            {
-                User = Object.assign({}, data)
-                $('.user-block__user-name').text(User.login)
+        login($(this))
+            .then((name) => {
+                $('.user-block__user-name').text(name)
                 $('.main-form').removeClass("_hidden")
                 $('.login-form').addClass("_hidden")
 
-                _login()
-            },
-            error: function (jqXHR, exception) {
-                _handleError(jqXHR, exception)
+                calypsoConnect()
+            })
+            .catch(() => {
                 $('.user-block__user-name').text("")
-            }
-        });
+            })
     })
-
-    $('.js-author-button').click(function(e){
-        var btn = $(this)
-        var id = btn[0].dataset.id
-
-        $.ajax({ url: "/api/calypso-token",
-            context: document.body,
-            success: function(data){
-
-                if (_isCalypsoApiEnabled()) {
-                    $CLIENT.addServerContext({dataId: id})
-                } else {
-                    $('#iframe-container').empty()
-
-                    var iframe = document.createElement('iframe');
-                    iframe.src = encodeURI(`${data.calypsoUrl}?data_id=${id}&token=${data.token}`);
-                    $('#iframe-container').append(iframe)
-                    $('#iframe-container').append(iframe)
-                }
-            },
-            error: _handleError,
-        });
-    })
-
-    const _handleError = (jqXHR, exception) => {
-        let msg = '';
-        if (jqXHR.status === 0) {
-            msg = 'Not connect.\n Verify Network.';
-        } else if (jqXHR.status === 404) {
-            msg = 'Requested page not found. [404]';
-        } else if (jqXHR.status === 500) {
-            msg = 'Internal Server Error [500].';
-        } else if (exception === 'parsererror') {
-            msg = 'Requested JSON parse failed.';
-        } else if (exception === 'timeout') {
-            msg = 'Time out error.';
-        } else if (exception === 'abort') {
-            msg = 'Ajax request aborted.';
-        } else {
-            msg = 'Uncaught Error.\n' + jqXHR.responseText;
-        }
-        alert(jqXHR.responseJSON && jqXHR.responseJSON.message ? jqXHR.responseJSON.message : msg);
-    }
 
     window.changeUser = () => {
-        $.ajax({ url: "/api/logout",
-            context: document.body,
-            success: function()
-            {
-                User = null
-
-                if (_isCalypsoApiEnabled()) {
-                    $CLIENT.logout()
-                }
+        logout()
+            .then(() => {
+                calypsoLogout()
 
                 $('.user-block__user-name').text(null)
                 $('#iframe-container').empty()
                 $('.main-form').addClass("_hidden")
                 $('.login-form').removeClass("_hidden")
-            },
-            error: _handleError
-        });
+            })
     }
 
-    const _login = function () {
-        if (_isCalypsoApiEnabled()) {
-            $.ajax({ url: "/api/calypso-token",
-                context: document.body,
-                success: function(data){
-                    $CLIENT.connect(data.token)
-                },
-                error: _handleError,
-            });
-        }
-    }
 });

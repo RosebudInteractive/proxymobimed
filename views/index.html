@@ -1,12 +1,13 @@
 <html>
     <head>
+        <title>Calypso в режиме js</title>
         <script src="<%- url %>/public/client-bundle.js"></script>
         <link href="<%- url %>/public/libs/jquery-ui/themes/smoothness/jquery-ui.css" rel="stylesheet">
         <link type="text/css" rel="stylesheet" href="<%- url %>/public/client-bundle.css" media="all">
         <script src="<%- url %>/public/uccello/uses/require.js"></script>
         <script src="<%- url %>/public/calypso-proxy.js"></script>
         <link rel="stylesheet" href="/css/main.css">
-        <script src="/src/main.js"></script>
+        <script src="/public/main.js"></script>
     </head>
     <body>
         <form class="login-form _hidden" id="login" action="/api/login" method="post">
@@ -21,17 +22,17 @@
             </div>
         </form>
         <div class="main-form _hidden">
-            <div class="toolbar">
-                <button class="toolbar__button js-author-button" data-id="1">Кукин</button>
-                <button class="toolbar__button js-author-button" data-id="2">Листов</button>
-                <button class="toolbar__button js-author-button" data-id="3">Лекманов</button>
-                <a href="/iframe" class="type-switch-link">перейти в IFRAME режим</a>
-                <div class="toolbar__user-block">
-                    <div class="user-block__user-name"></div>
-                    <button class="toolbar__button button__change-user" onclick=changeUser()>Выход</button>
+            <div class="buttons-block"></div>
+            <div class="calypso-wrapper">
+                <div class="toolbar">
+                    <a href="/iframe" class="type-switch-link">перейти в IFRAME режим</a>
+                    <div class="toolbar__user-block">
+                        <div class="user-block__user-name"></div>
+                        <button class="mobi-button orange" onclick=changeUser()>Выход</button>
+                    </div>
                 </div>
+                <div class="main-form__iframe" id="MyDiv"></div>
             </div>
-            <div class="main-form__iframe" id="MyDiv"></div>
         </div>
     </body>
 </html>

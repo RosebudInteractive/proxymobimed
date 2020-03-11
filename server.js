@@ -7,6 +7,25 @@ const app = express();
 
 const HTTP_PORT = 5555;
 
+const WEBPACK_ENABLED = process.env.WEBPACK && process.env.WEBPACK === "enabled";
+
+if (WEBPACK_ENABLED) {
+    let webpack = require('webpack')
+    let webpackDevMiddleware = require('webpack-dev-middleware');
+    let webpackHotMiddleware = require('webpack-hot-middleware');
+    let webpackConfig = require('./webpack.config');
+
+    let compiler = webpack(webpackConfig);
+    try {
+        app.use(webpackDevMiddleware(compiler, { noInfo: true, publicPath: webpackConfig.output.publicPath }));
+        app.use(webpackHotMiddleware(compiler));
+    }
+    catch (e) {
+        console.log(e)
+    }
+}
+
+
 let httpPort = config.has('httpPort') ? config.get('httpPort') : HTTP_PORT;
 require('./api')(app);
 
@@ -20,9 +39,8 @@ app.get('/iframe', function (req, res) {
     res.render('iframe.html', {});
 });
 
-app.use("/src", express.static(__dirname + '/src'));
+app.use("/public", express.static(__dirname + '/public'));
 app.use("/css", express.static(__dirname + '/css'));
-// app.use("/public", express.static(__dirname + '/public'));
 
 http.createServer(app).listen(httpPort, '127.0.0.1');
 console.log('Web server started http://127.0.0.1:' + httpPort);
