@@ -1,4 +1,4 @@
-// let webpack = require('webpack');
+let webpack = require('webpack');
 // require("babel-polyfill");
 let path = require('path');
 
@@ -30,6 +30,9 @@ const _devConfig = {
         filename: '[name].js',
         publicPath: '/public/'
     },
+    plugins: [
+        new webpack.HotModuleReplacementPlugin(),
+    ]
 };
 
 module.exports = WEBPACK_ENABLED ? _devConfig : _prodConfig;
