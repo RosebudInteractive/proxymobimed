@@ -2,7 +2,7 @@ let webpack = require('webpack');
 // require("babel-polyfill");
 let path = require('path');
 
-const WEBPACK_ENABLED = process.env.WEBPACK && process.env.WEBPACK === "enabled";
+const WEBPACK_PROD = process.env.WEBPACK && process.env.WEBPACK === "prod";
 
 const _prodConfig = {
     // watch: true,
@@ -35,5 +35,5 @@ const _devConfig = {
     ]
 };
 
-module.exports = WEBPACK_ENABLED ? _devConfig : _prodConfig;
+module.exports = WEBPACK_PROD ? _prodConfig : _devConfig;
 
