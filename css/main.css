@@ -38,7 +38,15 @@ body{
 .main-form__iframe {
     border: none;
     flex-grow: 1;
+    position: relative;
 }
+
+.calypso-root {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+}
+
 
 .main-form__iframe .form,
 .main-form__iframe .form .control-wrapper {
