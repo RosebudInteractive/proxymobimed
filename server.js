@@ -7,9 +7,9 @@ const app = express();
 
 const HTTP_PORT = 5555;
 
-const WEBPACK_ENABLED = process.env.WEBPACK && process.env.WEBPACK === "enabled";
+const WEBPACK_PROD = process.env.WEBPACK && process.env.WEBPACK === "prod";
 
-if (WEBPACK_ENABLED) {
+if (!WEBPACK_PROD) {
     let webpack = require('webpack')
     let webpackDevMiddleware = require('webpack-dev-middleware');
     let webpackHotMiddleware = require('webpack-hot-middleware');
