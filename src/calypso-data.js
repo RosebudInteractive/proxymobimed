@@ -51,7 +51,8 @@ const _loadResourceForms = () => {
         context: document.body,
         success: (data) => {
             Calypso.forms = data.map((item) => {
-                item.params = JSON.parse(item.params)
+                if (item.params)
+                    item.params = JSON.parse(item.params);
                 return item
             })
 
@@ -64,22 +65,31 @@ const _loadResourceForms = () => {
 }
 
 const _addButtonsOnClick = () => {
+
+    function _objId_to_params(objId) {
+        return { Action: JSON.stringify({ action: "edit", objId: objId }) };
+    }
+
     $('.js-calypso-button').click(function() {
         let btn = $(this),
             _index = btn[0].dataset.index,
             _formGuid = Calypso.forms[_index].formGuid,
-            _params = Calypso.forms[_index].params;
+            _params = Calypso.forms[_index].params,
+            _objId = Calypso.forms[_index].objId;
 
         getCalypsoToken()
             .then((token) => {
                 if (isCalypsoApiEnabled()) {
-                    $CLIENT.addContext({formGuid: _formGuid, params: _params})
+                    if (_objId)
+                        $CLIENT.createSimpleForm({ formGuid: _formGuid, objId: _objId })
+                    else
+                        $CLIENT.addContext({ formGuid: _formGuid, params: _params });
                 } else {
                     var id = btn[0].dataset.id
                     $('#iframe-container').empty()
 
                     var iframe = document.createElement('iframe');
-                    let _str = $.param( _params, true )
+                    let _str = _objId ? $.param(_objId_to_params(_objId), true): $.param( _params, true )
                     iframe.src = encodeURI(`${App.options.calypsoUrl}?iframe=1&formGuid=${_formGuid}&params=${_str}`);
                     $('#iframe-container').append(iframe)
                     $('#iframe-container').append(iframe)
