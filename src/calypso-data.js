@@ -23,7 +23,7 @@ export async function calypsoConnect() {
     if (isCalypsoApiEnabled()) {
         if (Calypso.loaded && !Calypso.connected) {
             let _token = await getCalypsoToken()
-            $CLIENT.connect(_token)
+            $calypsoClient.connect(_token)
         }
     } else {
         _loadResourceForms()
@@ -38,7 +38,7 @@ const _checkMobiUserAuthorized = () => {
 
 export const calypsoLogout = () => {
     if (isCalypsoApiEnabled() && Calypso.connected) {
-        $CLIENT.logout()
+        $calypsoClient.logout()
     }
 }
 
@@ -81,9 +81,9 @@ const _addButtonsOnClick = () => {
             .then((token) => {
                 if (isCalypsoApiEnabled()) {
                     if (_objId)
-                        $CLIENT.createSimpleForm({ formGuid: _formGuid, objId: _objId })
+                        $calypsoClient.createSimpleForm({ formGuid: _formGuid, objId: _objId })
                     else
-                        $CLIENT.addContext({ formGuid: _formGuid, params: _params });
+                        $calypsoClient.addContext({ formGuid: _formGuid, params: _params });
                 } else {
                     var id = btn[0].dataset.id
                     $('#iframe-container').empty()
